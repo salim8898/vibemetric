@@ -3,16 +3,16 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vibe-scanner"
+name = "vibemetric"
 version = "0.1.0"
-description = "AI-generated code detection tool and Python library"
+description = "AI Coding Analytics Platform - Measure AI's impact on developer productivity"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
-    {name = "Vibe Scanner Contributors"}
+    {name = "Salim Shaikh", email = "salim8898@users.noreply.github.com"}
 ]
-keywords = ["ai", "code-analysis", "detection", "static-analysis"]
+keywords = ["ai", "analytics", "productivity", "metrics", "developer-experience", "ai-detection"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -23,38 +23,41 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 dependencies = [
-    "tree-sitter>=0.20.0,<0.21.0",
     "gitpython>=3.1.0,<4.0.0",
     "click>=8.0.0,<9.0.0",
     "rich>=13.0.0,<14.0.0",
     "pyyaml>=6.0.0,<7.0.0",
+    "requests>=2.31.0,<3.0.0",
+    "pygithub>=2.1.0,<3.0.0",
+    "python-gitlab>=4.0.0,<5.0.0",
 ]
 
 [project.optional-dependencies]
-stats = [
+ml = [
     "numpy>=1.24.0,<2.0.0",
-    "scipy>=1.10.0,<2.0.0",
+    "scikit-learn>=1.3.0,<2.0.0",
 ]
 dev = [
     "pytest>=7.0.0,<8.0.0",
-    "hypothesis>=6.0.0,<7.0.0",
     "pytest-cov>=4.0.0,<5.0.0",
     "black>=23.0.0,<24.0.0",
     "mypy>=1.0.0,<2.0.0",
     "ruff>=0.1.0,<0.2.0",
     "types-pyyaml>=6.0.0",
+    "types-requests>=2.31.0",
 ]
 
 [project.scripts]
-vibe-scanner = "vibe_scanner.cli:main"
+vibemetric = "vibemetric.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/vibe-scanner/vibe-scanner"
-Repository = "https://github.com/vibe-scanner/vibe-scanner"
-Issues = "https://github.com/vibe-scanner/vibe-scanner/issues"
+Homepage = "https://github.com/salim8898/vibemetric"
+Repository = "https://github.com/salim8898/vibemetric"
+Issues = "https://github.com/salim8898/vibemetric/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -108,13 +111,13 @@ python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
     "--strict-config",
-    "--cov=vibe_scanner",
+    "--cov=vibemetric",
     "--cov-report=term-missing",
     "--cov-report=html",
 ]
 
 [tool.coverage.run]
-source = ["src/vibe_scanner"]
+source = ["src/vibemetric"]
 omit = [
     "*/tests/*",
     "*/__pycache__/*",

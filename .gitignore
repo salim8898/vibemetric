@@ -137,3 +137,40 @@ Thumbs.db
 *.vibe-scanner.yml
 vibe-report.json
 vibe-report.md
+
+# Internal planning documents (not for public repo)
+PROGRESS_LOG.md
+PHASE_1_OVERVIEW.md
+PHASE_1_DETAILED_SPEC.md
+PHASE_1_PREPARATION.md
+PHASE_1.5_ROADMAP.md
+PHASE_2_ROADMAP.md
+PROJECT_PIVOT_PLAN.md
+MARKET_RESEARCH.md
+DEFENSIBILITY_ANALYSIS.md
+VIBEMETRIC_FEATURES_ROADMAP.md
+MCP_INTEGRATION_PLAN.md
+
+# Test scripts (not for public repo)
+test_*.py
+debug_*.py
+demo_*.py
+*.sh
+
+# Test outputs
+vibemetric.sarif
+test_results.txt
+
+# Archive (old ML approach)
+archive/
+
+# Data files (training data, not for public repo)
+data/
+models/*.pkl
+models/*.parquet
+
+# Kiro specs (internal development)
+.kiro/specs/
+
+# Old vibe_scanner code (replaced by vibemetric)
+src/vibe_scanner/

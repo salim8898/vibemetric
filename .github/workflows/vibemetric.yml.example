@@ -1,0 +1,98 @@
+# Vibemetric AI Code Detection
+# 
+# This workflow runs Vibemetric on your repository and uploads results
+# to GitHub Code Scanning for visualization in the Security tab.
+#
+# To use:
+# 1. Copy this file to .github/workflows/vibemetric.yml
+# 2. Commit and push to your repository
+# 3. Results will appear in Security > Code scanning alerts
+
+name: Vibemetric AI Detection
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  schedule:
+    # Run weekly on Monday at 9am UTC
+    - cron: '0 9 * * 1'
+
+jobs:
+  analyze:
+    name: Analyze with Vibemetric
+    runs-on: ubuntu-latest
+    
+    permissions:
+      # Required for uploading SARIF results
+      security-events: write
+      # Required for checking out code
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # Fetch full history for velocity analysis
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Vibemetric
+        run: |
+          pip install vibemetric[ml]
+      
+      - name: Run Vibemetric scan
+        run: |
+          vibemetric scan . --format sarif --sample-size 20 > vibemetric.sarif
+      
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: vibemetric.sarif
+          category: vibemetric
+      
+      - name: Upload SARIF as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vibemetric-results
+          path: vibemetric.sarif
+
+  # Optional: Fail build if AI assistance is too high
+  check-threshold:
+    name: Check AI Assistance Threshold
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Vibemetric
+        run: |
+          pip install vibemetric[ml]
+      
+      - name: Run Vibemetric and check threshold
+        run: |
+          # Get overall score
+          SCORE=$(vibemetric scan . --format json | jq '.overall_score')
+          echo "AI Assistance Score: $SCORE/100"
+          
+          # Fail if score exceeds threshold (80 = SUBSTANTIAL)
+          if (( $(echo "$SCORE > 80" | bc -l) )); then
+            echo "❌ AI assistance score ($SCORE) exceeds threshold (80)"
+            echo "This repository shows substantial AI assistance."
+            exit 1
+          else
+            echo "✅ AI assistance score ($SCORE) is within acceptable range"
+          fi
