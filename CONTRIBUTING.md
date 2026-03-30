@@ -45,16 +45,15 @@ We are committed to providing a welcoming and inclusive environment for all cont
 
 ### Find an Issue
 
-1. Browse [open issues](https://github.com/vibemetric/vibemetric/issues)
+1. Browse [open issues](https://github.com/salim8898/vibemetric/issues)
 2. Look for issues labeled `good first issue` or `help wanted`
 3. Comment on the issue to let others know you're working on it
 4. Wait for maintainer approval before starting work
 
 ### Ask Questions
 
-- Open a [GitHub Discussion](https://github.com/vibemetric/vibemetric/discussions) for questions
-- Join our community chat (coming soon)
-- Email: contributors@vibemetric.ai
+- Open a [GitHub Discussion](https://github.com/salim8898/vibemetric/discussions) for questions
+- Create an issue for specific questions about the codebase
 
 ## Development Setup
 
@@ -219,7 +218,7 @@ class TestYourFeature:
 ### Create Pull Request
 
 1. Push your branch to your fork
-2. Go to [Vibemetric repository](https://github.com/vibemetric/vibemetric)
+2. Go to [Vibemetric repository](https://github.com/salim8898/vibemetric)
 3. Click "New Pull Request"
 4. Select your fork and branch
 5. Fill out PR template:
@@ -416,14 +415,13 @@ vibemetric/
 
 - 📖 [README](README.md) - Project overview
 - 📚 [Usage Guide](USAGE_GUIDE.md) - Detailed usage
-- 🐛 [Issues](https://github.com/vibemetric/vibemetric/issues) - Bug reports
-- 💬 [Discussions](https://github.com/vibemetric/vibemetric/discussions) - Questions
-- 📧 Email: contributors@vibemetric.ai
+- 🐛 [Issues](https://github.com/salim8898/vibemetric/issues) - Bug reports
+- 💬 [Discussions](https://github.com/salim8898/vibemetric/discussions) - Questions
 
 ### Maintainers
 
-- Primary maintainer: @vibemetric-team
-- Response time: Usually within 48 hours
+- Primary maintainer: @salim8898
+- Response time: Usually within 48-72 hours
 - Best way to reach: GitHub issues or discussions
 
 ## Recognition

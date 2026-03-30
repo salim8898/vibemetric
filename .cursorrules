@@ -1,0 +1,179 @@
+# Vibemetric Development Rules for AI Assistants
+
+## Project Overview
+Vibemetric is an AI code detection platform that analyzes repositories to identify AI-generated code and measure AI tool adoption. It uses a 4-layer detection system (Artifact, Velocity, Pattern, ML).
+
+## Core Principles
+
+1. **Test-Driven Development**: All new features require tests (aim for 80%+ coverage)
+2. **Type Safety**: Use type hints for all function signatures
+3. **Documentation**: All public APIs must have Google-style docstrings
+4. **Code Quality**: Follow PEP 8, use Black for formatting, Ruff for linting
+
+## Development Workflow
+
+### Before Making Changes
+- Read CONTRIBUTING.md for full guidelines
+- Check existing tests to understand patterns
+- Run `pytest` to ensure all tests pass
+- Create feature branch: `git checkout -b feature/your-feature`
+
+### When Writing Code
+- Add type hints to all functions
+- Write docstrings for public methods
+- Keep functions focused and small
+- Use descriptive variable names
+- Follow existing code patterns
+
+### When Adding Features
+1. Write tests FIRST (TDD approach)
+2. Implement the feature
+3. Run tests: `pytest tests/test_your_feature.py -v`
+4. Check coverage: `pytest --cov=vibemetric`
+5. Format code: `black src/ tests/`
+6. Lint code: `ruff check src/ tests/`
+7. Update documentation (README, USAGE_GUIDE)
+
+### Testing Requirements
+- All new code must have tests
+- Tests must be in `tests/` directory
+- Use pytest fixtures from `tests/conftest.py`
+- Test both success and failure cases
+- Mock external dependencies (git, GitHub API)
+
+## Code Style
+
+### Python Style
+```python
+from typing import List, Optional
+from vibemetric.models import DetectionSignal
+
+def analyze_code(
+    file_path: str,
+    threshold: float = 0.7
+) -> Optional[DetectionSignal]:
+    """
+    Analyze code file for AI patterns.
+    
+    Args:
+        file_path: Path to file to analyze
+        threshold: Detection threshold (0.0-1.0)
+        
+    Returns:
+        DetectionSignal if AI detected, None otherwise
+        
+    Raises:
+        ValueError: If threshold is out of range
+    """
+    if not 0.0 <= threshold <= 1.0:
+        raise ValueError("Threshold must be between 0.0 and 1.0")
+    
+    # Implementation
+    return None
+```
+
+### Commit Messages
+Use conventional commits:
+```
+feat(detector): Add support for Windsurf AI tool
+fix(velocity): Handle repos with <40 commits
+docs(readme): Update installation instructions
+test(pattern): Add tests for docstring detection
+```
+
+## Project Structure
+
+```
+src/vibemetric/
+├── detectors/          # 4-layer detection system
+│   ├── artifact_detector.py
+│   ├── velocity_analyzer.py
+│   ├── pattern_detector.py
+│   └── ml_detector.py
+├── integrations/       # GitHub, GitLab, PR analysis
+├── profiles/           # Developer profiles
+├── reports/            # Team reports
+├── formatters/         # Output formatters (SARIF, JSON)
+├── ml/                 # ML feature extraction
+├── models.py           # Data models
+├── scorer.py           # Score combination
+└── cli.py              # CLI interface
+
+tests/                  # Unit tests (mirrors src structure)
+```
+
+## Key Concepts
+
+### Detection Layers
+1. **Artifact** (90% accuracy) - Config file detection
+2. **Velocity** (80% accuracy) - Coding speed analysis
+3. **Pattern** (70% accuracy) - AI code patterns
+4. **ML** (85% accuracy) - Statistical detection
+
+### Scoring
+- Combined score: 0-100 scale
+- Weights: Artifact 40%, Velocity 25%, Pattern 20%, ML 15%
+- Assistance levels: MINIMAL (0-40), PARTIAL (40-70), SUBSTANTIAL (70-100)
+
+## Common Tasks
+
+### Add New AI Tool Detection
+1. Update `SUPPORTED_ARTIFACTS` in `artifact_detector.py`
+2. Add test case in `tests/test_artifact_detector.py`
+3. Update README.md supported tools list
+
+### Add New Pattern
+1. Add pattern to `PatternDetector` class
+2. Add test in `tests/test_pattern_detector.py`
+3. Document in SCORING_GUIDE.md
+
+### Fix Bug
+1. Write failing test that reproduces bug
+2. Fix the bug
+3. Verify test passes
+4. Add regression test if needed
+
+## Testing Commands
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_scorer.py -v
+
+# Run with coverage
+pytest --cov=vibemetric --cov-report=html
+
+# Run specific test
+pytest tests/test_scorer.py::TestScorer::test_calculate_vibe_score
+```
+
+## Don't Do This
+
+❌ Push directly to main branch
+❌ Skip writing tests
+❌ Ignore type hints
+❌ Leave commented-out code
+❌ Add dependencies without updating pyproject.toml
+❌ Modify ML model without retraining
+❌ Break existing tests
+❌ Add print statements (use logging)
+
+## Do This
+
+✅ Create feature branch for changes
+✅ Write tests before implementation
+✅ Use type hints everywhere
+✅ Add docstrings to public APIs
+✅ Run full test suite before committing
+✅ Update documentation
+✅ Follow conventional commit format
+✅ Request review via PR
+
+## Questions?
+
+- Check CONTRIBUTING.md
+- Read USAGE_GUIDE.md for feature details
+- Check SCORING_GUIDE.md for scoring logic
+- Open GitHub issue or discussion

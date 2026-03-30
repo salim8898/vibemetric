@@ -1,0 +1,74 @@
+# Vibemetric Development Rules for Cline
+
+## Project Context
+AI code detection platform with 4-layer detection system. 152 tests, 85% coverage. Python 3.9+.
+
+## Quick Reference
+
+### Before Coding
+- Run `pytest` to verify tests pass
+- Check `CONTRIBUTING.md` for guidelines
+- Create feature branch
+
+### When Coding
+- Add type hints to all functions
+- Write tests FIRST (TDD)
+- Use Google-style docstrings
+- Follow existing patterns in codebase
+
+### Before Committing
+```bash
+pytest                          # All tests must pass
+black src/ tests/               # Format code
+ruff check src/ tests/          # Lint code
+pytest --cov=vibemetric         # Check coverage
+```
+
+### Commit Format
+```
+type(scope): description
+
+feat(detector): Add new AI tool support
+fix(velocity): Handle edge case
+test(pattern): Add docstring tests
+docs(readme): Update installation
+```
+
+## Key Files
+
+- `src/vibemetric/detectors/` - 4 detection layers
+- `src/vibemetric/scorer.py` - Score combination
+- `src/vibemetric/cli.py` - CLI commands
+- `tests/` - Unit tests (152 tests)
+- `CONTRIBUTING.md` - Full guidelines
+
+## Testing Pattern
+
+```python
+# tests/test_feature.py
+import pytest
+from vibemetric.module import Class
+
+class TestFeature:
+    def test_success_case(self):
+        obj = Class()
+        result = obj.method()
+        assert result == expected
+    
+    def test_error_case(self):
+        obj = Class()
+        with pytest.raises(ValueError):
+            obj.method(invalid_input)
+```
+
+## Don't
+- Push to main directly
+- Skip tests
+- Ignore type hints
+- Leave debug code
+
+## Do
+- Use feature branches
+- Write tests first
+- Add docstrings
+- Run full test suite

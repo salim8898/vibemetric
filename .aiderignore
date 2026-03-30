@@ -1,0 +1,39 @@
+# Aider ignore patterns for Vibemetric
+
+# Internal planning docs
+PROGRESS_LOG.md
+PHASE_*.md
+PROJECT_PIVOT_PLAN.md
+MARKET_RESEARCH.md
+DEFENSIBILITY_ANALYSIS.md
+VIBEMETRIC_FEATURES_ROADMAP.md
+MCP_INTEGRATION_PLAN.md
+
+# Test scripts (not unit tests)
+/test_*.py
+/debug_*.py
+/demo_*.py
+
+# Data and models
+data/
+models/*.pkl
+models/*.parquet
+archive/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
+# IDE
+.vscode/
+.idea/
+
+# Kiro specs
+.kiro/specs/

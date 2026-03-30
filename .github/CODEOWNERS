@@ -1,0 +1,24 @@
+# Code Owners for Vibemetric
+# These owners will be automatically requested for review when PRs modify these files
+
+# Default owner for everything
+* @salim8898
+
+# Core detection logic
+/src/vibemetric/detectors/ @salim8898
+/src/vibemetric/ml/ @salim8898
+/src/vibemetric/scorer.py @salim8898
+
+# CLI and integrations
+/src/vibemetric/cli.py @salim8898
+/src/vibemetric/integrations/ @salim8898
+
+# Documentation
+*.md @salim8898
+/docs/ @salim8898
+
+# CI/CD and workflows
+/.github/ @salim8898
+
+# Tests
+/tests/ @salim8898

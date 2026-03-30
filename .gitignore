@@ -151,11 +151,12 @@ DEFENSIBILITY_ANALYSIS.md
 VIBEMETRIC_FEATURES_ROADMAP.md
 MCP_INTEGRATION_PLAN.md
 
-# Test scripts (not for public repo)
-test_*.py
-debug_*.py
-demo_*.py
-*.sh
+# Test scripts in root directory (not for public repo)
+# Note: tests/ directory is included for unit tests
+/test_*.py
+/debug_*.py
+/demo_*.py
+/*.sh
 
 # Test outputs
 vibemetric.sarif
