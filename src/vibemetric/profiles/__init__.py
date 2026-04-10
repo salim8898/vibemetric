@@ -6,6 +6,6 @@ AI usage profiles, including tool adoption, velocity metrics, and
 productivity analysis.
 """
 
-from .developer_profile import DeveloperProfiler, DeveloperProfile
+from .developer_profile import DeveloperProfile, DeveloperProfiler
 
 __all__ = ["DeveloperProfiler", "DeveloperProfile"]
