@@ -13,13 +13,15 @@ from uuid import UUID, uuid4
 
 class AIAssistanceLevel(Enum):
     """Level of AI assistance detected in code"""
-    MINIMAL = "MINIMAL"      # 0-40% AI likelihood - Primarily human-authored
-    PARTIAL = "PARTIAL"      # 40-70% AI likelihood - Mixed human-AI collaboration
+
+    MINIMAL = "MINIMAL"  # 0-40% AI likelihood - Primarily human-authored
+    PARTIAL = "PARTIAL"  # 40-70% AI likelihood - Mixed human-AI collaboration
     SUBSTANTIAL = "SUBSTANTIAL"  # 70-100% AI likelihood - Significant AI contribution
 
 
 class DetectionLayerType(Enum):
     """Types of detection layers"""
+
     ARTIFACT = "artifact"
     VELOCITY = "velocity"
     PATTERN = "pattern"
@@ -29,6 +31,7 @@ class DetectionLayerType(Enum):
 @dataclass
 class DetectionSignal:
     """Signal from a single detection layer"""
+
     layer_type: DetectionLayerType
     score: float  # 0-100
     confidence: float  # 0-1
@@ -39,11 +42,12 @@ class DetectionSignal:
 @dataclass
 class VibeScore:
     """Combined AI likelihood score"""
+
     overall_score: float  # 0-100
     confidence: float  # 0-1
     ai_assistance_level: AIAssistanceLevel
     contributing_signals: List[DetectionSignal] = field(default_factory=list)
-    
+
     def __post_init__(self):
         """Validate score bounds"""
         assert 0 <= self.overall_score <= 100, "Score must be between 0 and 100"
@@ -53,6 +57,7 @@ class VibeScore:
 @dataclass
 class Artifact:
     """AI tool artifact detected in repository"""
+
     id: UUID = field(default_factory=uuid4)
     tool_name: str = ""
     file_path: str = ""
@@ -64,6 +69,7 @@ class Artifact:
 @dataclass
 class Commit:
     """Git commit information"""
+
     id: UUID = field(default_factory=uuid4)
     commit_hash: str = ""
     author: str = ""
@@ -81,6 +87,7 @@ class Commit:
 @dataclass
 class PullRequest:
     """Pull request information"""
+
     id: UUID = field(default_factory=uuid4)
     pr_number: int = 0
     title: str = ""
@@ -101,6 +108,7 @@ class PullRequest:
 @dataclass
 class Developer:
     """Developer profile"""
+
     id: UUID = field(default_factory=uuid4)
     username: str = ""
     email: str = ""
@@ -118,6 +126,7 @@ class Developer:
 @dataclass
 class Repository:
     """Repository information"""
+
     id: UUID = field(default_factory=uuid4)
     name: str = ""
     url: str = ""
@@ -134,6 +143,7 @@ class Repository:
 @dataclass
 class ScanResult:
     """Complete scan result for a repository"""
+
     repository: Repository
     scan_timestamp: datetime = field(default_factory=datetime.now)
     total_files_scanned: int = 0
