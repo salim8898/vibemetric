@@ -8,11 +8,9 @@ This is a fallback layer that works when other detectors don't have strong signa
 Particularly effective for GPT-4 and GitHub Copilot detection.
 """
 
-import os
 from pathlib import Path
-from typing import Optional, Dict, Any
 
-from ..models import DetectionSignal, DetectionLayerType
+from ..models import DetectionLayerType, DetectionSignal
 
 
 class MLDetector:
@@ -37,6 +35,7 @@ class MLDetector:
         # Try to load model
         try:
             import joblib
+
             from ..ml.feature_extractor import FeatureExtractor
 
             # Check if model exists
@@ -49,7 +48,7 @@ class MLDetector:
                 self.model = joblib.load(str(model_file))
                 self.feature_extractor = FeatureExtractor()
                 self.model_available = True
-        except Exception as e:
+        except Exception:
             # Model not available - will return null signals
             pass
 
@@ -111,7 +110,7 @@ class MLDetector:
             Detection signal with ML prediction
         """
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 code = f.read()
         except Exception:
             return self._create_null_signal("Could not read file")

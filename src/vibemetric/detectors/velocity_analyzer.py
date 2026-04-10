@@ -25,10 +25,11 @@ FUTURE ENHANCEMENTS:
 
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import Optional
+
 import git
 
-from ..models import DetectionSignal, DetectionLayerType, Commit
+from ..models import Commit, DetectionLayerType, DetectionSignal
 
 
 class VelocityAnalyzer:
@@ -54,7 +55,7 @@ class VelocityAnalyzer:
         except (git.InvalidGitRepositoryError, git.NoSuchPathError):
             self.repo = None
 
-    def analyze(self, author: Optional[str] = None) -> Dict[str, any]:
+    def analyze(self, author: Optional[str] = None) -> dict[str, any]:
         """
         Analyze velocity for repository or specific author.
 
@@ -117,7 +118,7 @@ class VelocityAnalyzer:
                 "spike_date": None,
             }
 
-    def get_detection_signal(self, metrics: Dict[str, any]) -> DetectionSignal:
+    def get_detection_signal(self, metrics: dict[str, any]) -> DetectionSignal:
         """
         Create detection signal from velocity metrics.
 
@@ -171,7 +172,7 @@ class VelocityAnalyzer:
             metadata=metrics,
         )
 
-    def _get_commits(self, author: Optional[str] = None, debug: bool = False) -> List[Commit]:
+    def _get_commits(self, author: Optional[str] = None, debug: bool = False) -> list[Commit]:
         """
         Get commits from repository.
 
@@ -257,7 +258,7 @@ class VelocityAnalyzer:
                 commits.append(commit)
 
                 if debug and idx < 3:
-                    print(f"  Added commit to list")
+                    print("  Added commit to list")
 
         except Exception as e:
             if debug:
@@ -270,7 +271,7 @@ class VelocityAnalyzer:
 
         return commits
 
-    def _detect_spike(self, commits: List[Commit]) -> Optional[datetime]:
+    def _detect_spike(self, commits: list[Commit]) -> Optional[datetime]:
         """
         Detect velocity spike in commit history.
 
@@ -322,7 +323,7 @@ class VelocityAnalyzer:
 
     def _calculate_velocity(
         self,
-        commits: List[Commit],
+        commits: list[Commit],
         start_date: Optional[datetime] = None,
         end_date: Optional[datetime] = None,
         days: int = 30,
@@ -369,7 +370,7 @@ class VelocityAnalyzer:
 
         return self._calculate_velocity_for_commits(filtered)
 
-    def _calculate_velocity_for_commits(self, commits: List[Commit]) -> float:
+    def _calculate_velocity_for_commits(self, commits: list[Commit]) -> float:
         """
         Calculate average lines per day for a list of commits.
 

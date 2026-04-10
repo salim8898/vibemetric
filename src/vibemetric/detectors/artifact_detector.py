@@ -22,11 +22,11 @@ Supported AI Tools:
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Optional
+
 import git
 
-from ..models import Artifact, DetectionSignal, DetectionLayerType
-
+from ..models import Artifact, DetectionLayerType, DetectionSignal
 
 # AI tool artifact patterns
 ARTIFACT_PATTERNS = {
@@ -69,7 +69,7 @@ class ArtifactDetector:
             # Not a git repo or path doesn't exist
             self.repo = None
 
-    def detect(self) -> List[Artifact]:
+    def detect(self) -> list[Artifact]:
         """
         Scan repository for AI tool artifacts.
 
@@ -100,7 +100,7 @@ class ArtifactDetector:
 
         return artifacts
 
-    def get_detection_signal(self, artifacts: List[Artifact]) -> DetectionSignal:
+    def get_detection_signal(self, artifacts: list[Artifact]) -> DetectionSignal:
         """
         Create detection signal from artifacts.
 
@@ -141,7 +141,7 @@ class ArtifactDetector:
             metadata={"tools_detected": [a.tool_name for a in artifacts], "num_tools": num_tools},
         )
 
-    def _find_artifact(self, pattern: str) -> List[Path]:
+    def _find_artifact(self, pattern: str) -> list[Path]:
         """
         Find artifact files/directories matching pattern.
 
@@ -212,7 +212,7 @@ class ArtifactDetector:
 
         return None
 
-    def _get_authors(self, file_path: Path) -> List[str]:
+    def _get_authors(self, file_path: Path) -> list[str]:
         """
         Get list of authors who modified this artifact.
 
@@ -233,7 +233,7 @@ class ArtifactDetector:
             commits = list(self.repo.iter_commits(paths=str(rel_path)))
 
             # Extract unique authors
-            authors = list(set(commit.author.name for commit in commits))
+            authors = list({commit.author.name for commit in commits})
             return authors
         except (ValueError, git.GitCommandError):
             return []

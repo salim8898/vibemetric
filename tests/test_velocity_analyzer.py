@@ -3,11 +3,11 @@ Tests for Velocity Analyzer
 """
 
 import tempfile
-from pathlib import Path
 from datetime import datetime, timedelta
+from pathlib import Path
+
 import git
 import pytest
-
 from vibemetric.detectors.velocity_analyzer import VelocityAnalyzer
 from vibemetric.models import DetectionLayerType
 

@@ -3,7 +3,7 @@ Tests for SARIF Formatter
 """
 
 import json
-import pytest
+
 from src.vibemetric.formatters import SARIFFormatter
 
 

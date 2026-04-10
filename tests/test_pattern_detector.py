@@ -3,9 +3,8 @@ Tests for Pattern Detector
 """
 
 import tempfile
-from pathlib import Path
-import pytest
 
+import pytest
 from vibemetric.detectors.pattern_detector import PatternDetector
 from vibemetric.models import DetectionLayerType
 
@@ -40,14 +39,14 @@ def process_data(data):
 def calculate_sum(a: int, b: int) -> int:
     """
     Calculate the sum of two numbers.
-    
+
     Args:
         a: First number
         b: Second number
-        
+
     Returns:
         Sum of a and b
-        
+
     Example:
         >>> calculate_sum(2, 3)
         5
@@ -57,11 +56,11 @@ def calculate_sum(a: int, b: int) -> int:
 def multiply(x: int, y: int) -> int:
     """
     Multiply two numbers.
-    
+
     Args:
         x: First number
         y: Second number
-        
+
     Returns:
         Product of x and y
     """
@@ -80,14 +79,14 @@ from typing import List, Dict, Optional
 def process_items(items: List[str], config: Dict[str, int]) -> Optional[str]:
     result: Optional[str] = None
     count: int = 0
-    
+
     for item in items:
         value: int = config.get(item, 0)
         count += value
-    
+
     if count > 0:
         result = f"Total: {count}"
-    
+
     return result
 """
         signal = detector.analyze_code(code)
@@ -166,7 +165,7 @@ def multiply(x, y):
 class Calculator:
     def __init__(self):
         self.result = 0
-    
+
     def calculate(self, op, a, b):
         if op == '+':
             return a + b
@@ -185,10 +184,10 @@ class Calculator:
 def process_data(data: List[str]) -> Dict[str, int]:
     """
     Process the input data.
-    
+
     Args:
         data: List of strings to process
-        
+
     Returns:
         Dictionary with processed results
     """
@@ -241,10 +240,10 @@ from dataclasses import dataclass
 class Data:
     """
     Data container.
-    
+
     Args:
         value: The value to store
-        
+
     Attributes:
         value: Stored value
     """
@@ -253,13 +252,13 @@ class Data:
 def process(items: List[str]) -> Optional[Dict[str, int]]:
     """
     Process items.
-    
+
     Args:
         items: Items to process
-        
+
     Returns:
         Processed results
-        
+
     Example:
         >>> process(["a", "b"])
         {"a": 1, "b": 1}
@@ -267,11 +266,11 @@ def process(items: List[str]) -> Optional[Dict[str, int]]:
     # This function is used to process items
     # Initialize the result dictionary
     result: Dict[str, int] = {}
-    
+
     for item in items:
         # Create a new entry
         result[item] = 1
-    
+
     # Return the result
     return result
 '''
@@ -294,10 +293,10 @@ def process(items: List[str]) -> Optional[Dict[str, int]]:
 def func(x: int) -> int:
     """
     A function.
-    
+
     Args:
         x: Input
-        
+
     Returns:
         Output
     """

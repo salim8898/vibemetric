@@ -6,9 +6,9 @@ Works for both public and private repositories.
 """
 
 import subprocess
-from typing import Dict, List, Any, Optional
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Optional
 
 
 class LocalPRAnalyzer:
@@ -28,7 +28,7 @@ class LocalPRAnalyzer:
         """
         self.repo_path = Path(repo_path)
 
-    def fetch_pr_locally(self, pr_number: int) -> Dict[str, Any]:
+    def fetch_pr_locally(self, pr_number: int) -> dict[str, Any]:
         """
         Fetch PR data using local git commands.
 
@@ -76,7 +76,7 @@ class LocalPRAnalyzer:
             }
 
         except subprocess.CalledProcessError as e:
-            raise ValueError(f"Failed to fetch PR #{pr_number}: {e.stderr}")
+            raise ValueError(f"Failed to fetch PR #{pr_number}: {e.stderr}") from e
         finally:
             # Cleanup: delete temporary branch
             try:
@@ -114,7 +114,7 @@ class LocalPRAnalyzer:
                     return branch
             return "main"
 
-    def _get_changed_files(self, base_branch: str, pr_branch: str) -> List[Dict[str, Any]]:
+    def _get_changed_files(self, base_branch: str, pr_branch: str) -> list[dict[str, Any]]:
         """Get list of changed files with content"""
         files_data = []
 
@@ -158,7 +158,7 @@ class LocalPRAnalyzer:
 
         return files_data
 
-    def _get_file_stats(self, base_branch: str, pr_branch: str, filename: str) -> Dict[str, int]:
+    def _get_file_stats(self, base_branch: str, pr_branch: str, filename: str) -> dict[str, int]:
         """Get additions/deletions for a file"""
         try:
             result = subprocess.run(
@@ -193,7 +193,7 @@ class LocalPRAnalyzer:
         except Exception:
             return None
 
-    def _get_commits(self, base_branch: str, pr_branch: str) -> List[Dict[str, Any]]:
+    def _get_commits(self, base_branch: str, pr_branch: str) -> list[dict[str, Any]]:
         """Get list of commits in PR"""
         commits_data = []
 
@@ -239,7 +239,7 @@ class LocalPRAnalyzer:
 
         return commits_data
 
-    def _get_pr_metadata(self, pr_branch: str) -> Dict[str, Any]:
+    def _get_pr_metadata(self, pr_branch: str) -> dict[str, Any]:
         """Get PR metadata from branch"""
         try:
             # Get first commit info

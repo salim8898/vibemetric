@@ -15,8 +15,7 @@ AI Assistance Levels:
 - SUBSTANTIAL: 70-100 (significant AI contribution)
 """
 
-from typing import List, Optional
-from .models import DetectionSignal, VibeScore, AIAssistanceLevel, DetectionLayerType
+from .models import AIAssistanceLevel, DetectionLayerType, DetectionSignal, VibeScore
 
 
 class Scorer:
@@ -39,7 +38,7 @@ class Scorer:
         pass
 
     def calculate_vibe_score(
-        self, signals: List[DetectionSignal], require_all_layers: bool = False
+        self, signals: list[DetectionSignal], require_all_layers: bool = False
     ) -> VibeScore:
         """
         Calculate combined AI likelihood score from detection signals.
@@ -158,7 +157,7 @@ class Scorer:
                 "Patterns consistent with traditional development practices."
             )
 
-    def get_recommendations(self, vibe_score: VibeScore) -> List[str]:
+    def get_recommendations(self, vibe_score: VibeScore) -> list[str]:
         """
         Get actionable recommendations based on score.
 
@@ -184,7 +183,7 @@ class Scorer:
             s.layer_type == DetectionLayerType.PATTERN and s.score > 0
             for s in vibe_score.contributing_signals
         )
-        has_ml = any(
+        any(
             s.layer_type == DetectionLayerType.ML and s.score > 0
             for s in vibe_score.contributing_signals
         )

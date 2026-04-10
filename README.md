@@ -269,27 +269,6 @@ Weights are based on layer accuracy and reliability:
 
 See `KNOWN_ISSUES.md` for details.
 
-## Roadmap
-
-### Phase 1 (Complete) ✅
-- [x] 4-layer detection system
-- [x] Score combination engine
-- [x] CLI tool with JSON output
-- [x] Comprehensive test suite
-
-### Phase 1.5 (In Progress)
-- [ ] SARIF output format for GitHub Code Scanning integration
-- [ ] MCP server integration
-- [ ] Additional CLI commands (scan-pr, developer-profile)
-- [ ] Enhanced documentation
-
-### Phase 2 (Planned)
-- [ ] Team analytics dashboard
-- [ ] PR-based velocity analysis
-- [ ] GitHub/GitLab API integration
-- [ ] Developer productivity metrics
-- [ ] Custom detection rules
-
 ## Contributing
 
 Contributions are welcome! Please see `CONTRIBUTING.md` for guidelines.

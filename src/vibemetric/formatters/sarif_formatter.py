@@ -5,11 +5,7 @@ Generates SARIF 2.1.0 compliant output for GitHub Code Scanning integration.
 """
 
 import json
-from typing import Dict, List, Any, Optional
-from datetime import datetime
-from pathlib import Path
-
-from ..models import AIAssistanceLevel
+from typing import Any, Optional
 
 
 class SARIFFormatter:
@@ -32,7 +28,7 @@ class SARIFFormatter:
         """
         self.version = version
 
-    def format(self, results: Dict[str, Any]) -> str:
+    def format(self, results: dict[str, Any]) -> str:
         """
         Format scan results as SARIF JSON.
 
@@ -50,7 +46,7 @@ class SARIFFormatter:
 
         return json.dumps(sarif_output, indent=2)
 
-    def _create_run(self, results: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_run(self, results: dict[str, Any]) -> dict[str, Any]:
         """Create SARIF run object."""
         return {
             "tool": self._create_tool(),
@@ -64,7 +60,7 @@ class SARIFFormatter:
             },
         }
 
-    def _create_tool(self) -> Dict[str, Any]:
+    def _create_tool(self) -> dict[str, Any]:
         """Create SARIF tool object."""
         return {
             "driver": {
@@ -80,7 +76,7 @@ class SARIFFormatter:
             }
         }
 
-    def _create_rules(self) -> List[Dict[str, Any]]:
+    def _create_rules(self) -> list[dict[str, Any]]:
         """Create SARIF rule definitions."""
         return [
             {
@@ -127,7 +123,7 @@ class SARIFFormatter:
             },
         ]
 
-    def _create_results(self, results: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _create_results(self, results: dict[str, Any]) -> list[dict[str, Any]]:
         """Create SARIF results from scan data."""
         sarif_results = []
 
@@ -152,8 +148,8 @@ class SARIFFormatter:
         return sarif_results
 
     def _create_file_result(
-        self, file_result: Dict[str, Any], repo_path: str
-    ) -> Optional[Dict[str, Any]]:
+        self, file_result: dict[str, Any], repo_path: str
+    ) -> Optional[dict[str, Any]]:
         """Create SARIF result for a file from pattern detection."""
         score = file_result["score"]
         filename = file_result["file"]
@@ -188,8 +184,8 @@ class SARIFFormatter:
         }
 
     def _create_ml_file_result(
-        self, file_result: Dict[str, Any], repo_path: str
-    ) -> Optional[Dict[str, Any]]:
+        self, file_result: dict[str, Any], repo_path: str
+    ) -> Optional[dict[str, Any]]:
         """Create SARIF result for a file from ML detection."""
         score = file_result["score"]
         filename = file_result["file"]
@@ -223,7 +219,7 @@ class SARIFFormatter:
             },
         }
 
-    def _create_repository_result(self, results: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_repository_result(self, results: dict[str, Any]) -> dict[str, Any]:
         """Create repository-level SARIF result."""
         vibe_score = results["vibe_score"]
         score = vibe_score["overall_score"]

@@ -2,14 +2,12 @@
 Tests for Artifact Detector
 """
 
-import os
 import tempfile
 from pathlib import Path
-from datetime import datetime
+
 import git
 import pytest
-
-from vibemetric.detectors.artifact_detector import ArtifactDetector, ARTIFACT_PATTERNS
+from vibemetric.detectors.artifact_detector import ARTIFACT_PATTERNS, ArtifactDetector
 from vibemetric.models import DetectionLayerType
 
 

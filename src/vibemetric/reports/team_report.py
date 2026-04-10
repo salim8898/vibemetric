@@ -5,14 +5,13 @@ Generates team-wide AI usage analytics by aggregating
 individual developer profiles.
 """
 
-from dataclasses import dataclass
-from datetime import datetime
-from pathlib import Path
-from typing import List, Dict, Optional, Any
-from collections import Counter
 import json
+from collections import Counter
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
 
-from ..profiles import DeveloperProfiler, DeveloperProfile
+from ..profiles import DeveloperProfile, DeveloperProfiler
 
 
 @dataclass
@@ -39,12 +38,12 @@ class TeamReport:
     shadow_ai_users: int
     human_only_developers: int
     ai_adoption_rate: float
-    tool_distribution: Dict[str, int]
-    top_ai_users: List[Dict[str, Any]]
-    productivity_metrics: Dict[str, Any]
-    ai_adoption_timeline: List[Dict[str, Any]]
+    tool_distribution: dict[str, int]
+    top_ai_users: list[dict[str, Any]]
+    productivity_metrics: dict[str, Any]
+    ai_adoption_timeline: list[dict[str, Any]]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert report to dictionary."""
         return {
             "repository": self.repository,
@@ -107,7 +106,7 @@ class TeamReport:
 
         # Top AI Users
         if self.top_ai_users:
-            lines.append(f"Top AI Users (by AI-assisted commits):")
+            lines.append("Top AI Users (by AI-assisted commits):")
             for i, user in enumerate(self.top_ai_users[:10], 1):
                 lines.append(
                     f"  {i}. {user['author']} - {user['ai_commit_percentage']:.1f}% AI-assisted "
@@ -127,7 +126,7 @@ class TeamReport:
             elif avg_improvement < 0:
                 lines.append(f"  Average Velocity Improvement: {avg_improvement:.1f}%")
             else:
-                lines.append(f"  Average Velocity Improvement: No significant change (0.0%)")
+                lines.append("  Average Velocity Improvement: No significant change (0.0%)")
 
             lines.append(
                 f"  Developers with Velocity Data: {metrics['developers_with_velocity_data']}"
@@ -145,17 +144,17 @@ class TeamReport:
                 metrics["developers_with_positive_impact"] == 0
                 and metrics["developers_with_negative_impact"] == 0
             ):
-                lines.append(f"  Note: Velocity unchanged for all developers with data")
+                lines.append("  Note: Velocity unchanged for all developers with data")
         else:
             lines.append("  Insufficient velocity data for analysis")
 
         lines.append(f"  Average AI Score: {metrics['average_ai_score']:.1f}/100")
-        lines.append(f"    (Team-wide average of commit message AI likelihood)")
+        lines.append("    (Team-wide average of commit message AI likelihood)")
         lines.append(f"  Total Commits Analyzed: {metrics['total_commits']}")
         lines.append(
             f"  AI-Assisted Commits: {metrics['ai_assisted_commits']} ({metrics['ai_assisted_percentage']:.1f}%)"
         )
-        lines.append(f"    (Commits with AI patterns: structured format, lists, etc.)")
+        lines.append("    (Commits with AI patterns: structured format, lists, etc.)")
         lines.append("")
 
         # AI Adoption Timeline
@@ -297,7 +296,7 @@ class TeamReporter:
             ai_adoption_timeline=ai_adoption_timeline,
         )
 
-    def _calculate_productivity_metrics(self, profiles: List[DeveloperProfile]) -> Dict[str, Any]:
+    def _calculate_productivity_metrics(self, profiles: list[DeveloperProfile]) -> dict[str, Any]:
         """Calculate team productivity metrics."""
         # Velocity improvements
         velocity_improvements = [
@@ -337,7 +336,7 @@ class TeamReporter:
             "ai_assisted_percentage": ai_assisted_percentage,
         }
 
-    def _build_adoption_timeline(self, profiles: List[DeveloperProfile]) -> List[Dict[str, Any]]:
+    def _build_adoption_timeline(self, profiles: list[DeveloperProfile]) -> list[dict[str, Any]]:
         """Build timeline of AI tool adoptions."""
         timeline = []
 

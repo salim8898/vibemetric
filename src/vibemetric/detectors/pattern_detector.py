@@ -14,10 +14,9 @@ This is the third detection layer, providing 70% accuracy.
 """
 
 import re
-from typing import List, Dict, Any, Optional
 from pathlib import Path
 
-from ..models import DetectionSignal, DetectionLayerType
+from ..models import DetectionLayerType, DetectionSignal
 
 
 class PatternDetector:
@@ -348,7 +347,7 @@ class PatternDetector:
             return self._create_null_signal()
 
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 code = f.read()
         except Exception:
             return self._create_null_signal()
@@ -430,7 +429,7 @@ class PatternDetector:
             metadata={"pattern_count": len(pattern_scores), "language": language},
         )
 
-    def _analyze_comment_patterns(self, code: str) -> tuple[float, List[str]]:
+    def _analyze_comment_patterns(self, code: str) -> tuple[float, list[str]]:
         """
         Analyze code for AI-style comment patterns.
 
@@ -532,7 +531,7 @@ class PatternDetector:
 
         return base_score
 
-    def _detect_hallucinations(self, code: str, language: str) -> List[str]:
+    def _detect_hallucinations(self, code: str, language: str) -> list[str]:
         """
         Detect hallucination patterns (non-existent APIs, unusual patterns).
 
@@ -549,7 +548,7 @@ class PatternDetector:
 
         return hallucinations
 
-    def _detect_ai_code_patterns(self, code: str, language: str) -> List[str]:
+    def _detect_ai_code_patterns(self, code: str, language: str) -> list[str]:
         """
         Detect AI-specific code patterns.
 
@@ -565,7 +564,7 @@ class PatternDetector:
 
         return ai_patterns
 
-    def _calculate_confidence(self, scores: List[float]) -> float:
+    def _calculate_confidence(self, scores: list[float]) -> float:
         """
         Calculate confidence based on number and agreement of signals.
 

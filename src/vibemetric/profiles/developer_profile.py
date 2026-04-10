@@ -5,15 +5,15 @@ Analyzes individual developer AI usage patterns, tool adoption,
 and productivity metrics.
 """
 
+import json
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Optional, Any
-import json
+from typing import Any, Optional
 
 from ..detectors.artifact_detector import ArtifactDetector
-from ..detectors.velocity_analyzer import VelocityAnalyzer
 from ..detectors.pattern_detector import PatternDetector
+from ..detectors.velocity_analyzer import VelocityAnalyzer
 from ..models import Artifact
 
 
@@ -39,7 +39,7 @@ class DeveloperProfile:
 
     author: str
     email: Optional[str]
-    ai_tools: List[str]
+    ai_tools: list[str]
     adoption_date: Optional[datetime]
     days_using_ai: int
     velocity_before_ai: float
@@ -50,7 +50,7 @@ class DeveloperProfile:
     ai_commit_percentage: float
     average_ai_score: float
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert profile to dictionary."""
         return {
             "author": self.author,
@@ -104,7 +104,7 @@ class DeveloperProfile:
             elif self.velocity_improvement < 0:
                 lines.append(f"  Change: {self.velocity_improvement:.1f}%")
             else:
-                lines.append(f"  Change: No significant change")
+                lines.append("  Change: No significant change")
         else:
             lines.append("  Insufficient data for velocity analysis")
         lines.append("")
@@ -235,7 +235,7 @@ class DeveloperProfiler:
             average_ai_score=average_ai_score,
         )
 
-    def generate_all_profiles(self) -> List[DeveloperProfile]:
+    def generate_all_profiles(self) -> list[DeveloperProfile]:
         """
         Generate profiles for all developers in repository.
 
@@ -266,7 +266,7 @@ class DeveloperProfiler:
 
         return deduplicated
 
-    def _deduplicate_profiles(self, profiles: List[DeveloperProfile]) -> List[DeveloperProfile]:
+    def _deduplicate_profiles(self, profiles: list[DeveloperProfile]) -> list[DeveloperProfile]:
         """
         Merge profiles for the same author with different emails.
 
@@ -286,7 +286,7 @@ class DeveloperProfiler:
 
         # Merge profiles for same author
         merged = []
-        for author_key, author_profiles in by_author.items():
+        for author_profiles in by_author.values():
             if len(author_profiles) == 1:
                 # Single profile, no merging needed
                 merged.append(author_profiles[0])
@@ -297,7 +297,7 @@ class DeveloperProfiler:
 
         return merged
 
-    def _merge_profiles(self, profiles: List[DeveloperProfile]) -> DeveloperProfile:
+    def _merge_profiles(self, profiles: list[DeveloperProfile]) -> DeveloperProfile:
         """
         Merge multiple profiles for the same author.
 
@@ -360,7 +360,7 @@ class DeveloperProfiler:
         )
 
     def _find_adoption_date(
-        self, artifacts: List[Artifact], author: Optional[str], email: Optional[str]
+        self, artifacts: list[Artifact], author: Optional[str], email: Optional[str]
     ) -> Optional[datetime]:
         """
         Find when developer adopted AI tools.

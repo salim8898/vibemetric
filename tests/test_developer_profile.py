@@ -2,14 +2,15 @@
 Tests for developer profile generation.
 """
 
-import pytest
-from datetime import datetime, timedelta
-from pathlib import Path
-import tempfile
 import shutil
-import git
+import tempfile
+from datetime import datetime
+from pathlib import Path
 
-from src.vibemetric.profiles import DeveloperProfiler, DeveloperProfile
+import git
+import pytest
+
+from src.vibemetric.profiles import DeveloperProfile, DeveloperProfiler
 
 
 class TestDeveloperProfile:

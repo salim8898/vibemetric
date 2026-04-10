@@ -2,9 +2,8 @@
 Tests for Score Combination Engine
 """
 
-import pytest
+from src.vibemetric.models import AIAssistanceLevel, DetectionLayerType, DetectionSignal, VibeScore
 from src.vibemetric.scorer import Scorer
-from src.vibemetric.models import DetectionSignal, DetectionLayerType, AIAssistanceLevel, VibeScore
 
 
 class TestScorer:

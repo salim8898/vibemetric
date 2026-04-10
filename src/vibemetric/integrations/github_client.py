@@ -6,9 +6,7 @@ Fetches pull request data from GitHub repositories.
 
 import os
 import re
-from typing import Dict, List, Optional, Any
-from datetime import datetime
-from pathlib import Path
+from typing import Any, Optional
 
 try:
     from github import Github, GithubException
@@ -91,10 +89,10 @@ class GitHubClient:
 
             raise ValueError(f"Could not parse GitHub URL from: {remote_url}")
 
-        except subprocess.CalledProcessError:
-            raise ValueError(f"Not a git repository: {repo_path}")
+        except subprocess.CalledProcessError as e:
+            raise ValueError(f"Not a git repository: {repo_path}") from e
 
-    def fetch_pr(self, owner: str, repo: str, pr_number: int) -> Dict[str, Any]:
+    def fetch_pr(self, owner: str, repo: str, pr_number: int) -> dict[str, Any]:
         """
         Fetch pull request data from GitHub.
 
@@ -164,15 +162,15 @@ class GitHubClient:
 
         except GithubException as e:
             if e.status == 404:
-                raise ValueError(f"PR #{pr_number} not found in {owner}/{repo}")
+                raise ValueError(f"PR #{pr_number} not found in {owner}/{repo}") from e
             elif e.status == 401:
                 raise ValueError(
                     "GitHub authentication failed. Set GITHUB_TOKEN environment variable."
-                )
+                ) from e
             else:
-                raise ValueError(f"GitHub API error: {e.data.get('message', str(e))}")
+                raise ValueError(f"GitHub API error: {e.data.get('message', str(e))}") from e
 
-    def fetch_pr_by_url(self, url: str) -> Dict[str, Any]:
+    def fetch_pr_by_url(self, url: str) -> dict[str, Any]:
         """
         Fetch pull request data from GitHub URL.
 
@@ -185,7 +183,7 @@ class GitHubClient:
         owner, repo, pr_number = self.parse_pr_url(url)
         return self.fetch_pr(owner, repo, pr_number)
 
-    def fetch_pr_from_repo(self, repo_path: str, pr_number: int) -> Dict[str, Any]:
+    def fetch_pr_from_repo(self, repo_path: str, pr_number: int) -> dict[str, Any]:
         """
         Fetch pull request data from local repository.
 

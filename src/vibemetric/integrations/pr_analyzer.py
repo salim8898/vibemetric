@@ -6,15 +6,15 @@ This is a unique differentiator for Vibemetric.
 """
 
 import re
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
 
-from ..detectors.pattern_detector import PatternDetector
 from ..detectors.ml_detector import MLDetector
+from ..detectors.pattern_detector import PatternDetector
+from ..models import AIAssistanceLevel, DetectionLayerType, DetectionSignal
 from ..scorer import Scorer
-from ..models import DetectionSignal, DetectionLayerType, AIAssistanceLevel
 
 
 @dataclass
@@ -58,16 +58,16 @@ class PRAnalysisResult:
     description: str
     description_ai_score: float = 0.0
     description_confidence: float = 0.0
-    description_patterns: List[str] = field(default_factory=list)
+    description_patterns: list[str] = field(default_factory=list)
 
     # Files analysis
-    files: List[PRFile] = field(default_factory=list)
+    files: list[PRFile] = field(default_factory=list)
     total_additions: int = 0
     total_deletions: int = 0
-    high_ai_files: List[PRFile] = field(default_factory=list)
+    high_ai_files: list[PRFile] = field(default_factory=list)
 
     # Commits analysis
-    commits: List[PRCommit] = field(default_factory=list)
+    commits: list[PRCommit] = field(default_factory=list)
     ai_style_commits: int = 0
     avg_commit_ai_score: float = 0.0
 
@@ -81,7 +81,7 @@ class PRAnalysisResult:
     baseline_difference: Optional[float] = None
     baseline_percentage: Optional[float] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON output"""
         return {
             "pr_number": self.pr_number,
@@ -141,20 +141,20 @@ class PRAnalysisResult:
         lines.append(f"  Status: {self.state}")
 
         # PR Description Analysis
-        lines.append(f"\nPR Description Analysis:")
+        lines.append("\nPR Description Analysis:")
         level_color = self._get_level_indicator(self.description_ai_score)
         lines.append(f"  AI Likelihood: {self.description_ai_score:.1f}/100 {level_color}")
         lines.append(f"  Confidence: {self.description_confidence:.2f}")
 
         if self.description_patterns:
-            lines.append(f"  Patterns Detected:")
+            lines.append("  Patterns Detected:")
             for pattern in self.description_patterns[:5]:  # Top 5
                 lines.append(f"    • {pattern}")
         else:
-            lines.append(f"  Patterns Detected: None (human-style description)")
+            lines.append("  Patterns Detected: None (human-style description)")
 
         # Changed Files Analysis
-        lines.append(f"\nChanged Files Analysis:")
+        lines.append("\nChanged Files Analysis:")
         lines.append(f"  Total Files: {len(self.files)}")
         lines.append(f"  Lines Added: {self.total_additions}")
         lines.append(f"  Lines Deleted: {self.total_deletions}")
@@ -162,7 +162,7 @@ class PRAnalysisResult:
         # Show ALL analyzed files with scores
         analyzed_files = [f for f in self.files if f.ai_score > 0]
         if analyzed_files:
-            lines.append(f"\n  File AI Likelihood Scores:")
+            lines.append("\n  File AI Likelihood Scores:")
             # Sort by score descending
             analyzed_files.sort(key=lambda f: f.ai_score, reverse=True)
             for file in analyzed_files[:10]:  # Top 10
@@ -171,13 +171,13 @@ class PRAnalysisResult:
                     f"    • {file.filename}: {file.ai_score:.1f}/100 {level_color} (+{file.additions}/-{file.deletions})"
                 )
         else:
-            lines.append(f"  File Analysis: No code files analyzed (binary/excluded files)")
+            lines.append("  File Analysis: No code files analyzed (binary/excluded files)")
 
         if self.high_ai_files:
             lines.append(f"\n  ⚠️  High AI Likelihood Files (>60): {len(self.high_ai_files)}")
 
         # Commit Messages Analysis
-        lines.append(f"\nCommit Messages Analysis:")
+        lines.append("\nCommit Messages Analysis:")
         lines.append(f"  Total Commits: {len(self.commits)}")
 
         if self.commits:
@@ -190,20 +190,20 @@ class PRAnalysisResult:
             # Show commits with AI patterns
             ai_commits = [c for c in self.commits if c.ai_score > 40]
             if ai_commits:
-                lines.append(f"\n  AI-Style Commit Messages:")
+                lines.append("\n  AI-Style Commit Messages:")
                 for commit in ai_commits[:5]:  # Top 5
                     msg_preview = commit.message.split("\n")[0][:60]
                     lines.append(
                         f"    • {commit.sha[:7]}: {msg_preview}... ({commit.ai_score:.1f}/100)"
                     )
             else:
-                lines.append(f"  AI-Style Commits: None detected (human-style messages)")
+                lines.append("  AI-Style Commits: None detected (human-style messages)")
         else:
-            lines.append(f"  No commits to analyze")
+            lines.append("  No commits to analyze")
 
         # Overall Assessment
         lines.append(f"\n{'─' * 70}")
-        lines.append(f"Overall Assessment:")
+        lines.append("Overall Assessment:")
         lines.append(f"{'─' * 70}")
 
         level_color = self._get_level_indicator(self.overall_ai_score)
@@ -212,7 +212,7 @@ class PRAnalysisResult:
         lines.append(f"  Confidence: {self.overall_confidence:.2f}")
 
         # Score breakdown - show what contributed to the score
-        lines.append(f"\n  Score Breakdown:")
+        lines.append("\n  Score Breakdown:")
         lines.append(f"    • PR Description: {self.description_ai_score:.1f}/100 (weight: 30%)")
 
         # Calculate average file score
@@ -222,31 +222,29 @@ class PRAnalysisResult:
                 f"    • Changed Files: {avg_file_score:.1f}/100 (weight: 40%, {len(analyzed_files)} files)"
             )
         else:
-            lines.append(f"    • Changed Files: N/A (no analyzable files)")
+            lines.append("    • Changed Files: N/A (no analyzable files)")
 
         lines.append(
             f"    • Commit Messages: {self.avg_commit_ai_score:.1f}/100 (weight: 30%, {len(self.commits)} commits)"
         )
 
         # Interpretation
-        lines.append(f"\n  Interpretation:")
+        lines.append("\n  Interpretation:")
         if self.overall_ai_score >= 70:
+            lines.append("    This PR shows SUBSTANTIAL AI assistance. Multiple indicators suggest")
             lines.append(
-                f"    This PR shows SUBSTANTIAL AI assistance. Multiple indicators suggest"
-            )
-            lines.append(
-                f"    significant AI tool usage in code generation, documentation, or commits."
+                "    significant AI tool usage in code generation, documentation, or commits."
             )
         elif self.overall_ai_score >= 40:
-            lines.append(f"    This PR shows PARTIAL AI assistance. Some patterns suggest AI tool")
-            lines.append(f"    usage, but mixed with human contributions.")
+            lines.append("    This PR shows PARTIAL AI assistance. Some patterns suggest AI tool")
+            lines.append("    usage, but mixed with human contributions.")
         else:
-            lines.append(f"    This PR shows MINIMAL AI assistance. Patterns are consistent with")
-            lines.append(f"    human-authored code and commits.")
+            lines.append("    This PR shows MINIMAL AI assistance. Patterns are consistent with")
+            lines.append("    human-authored code and commits.")
 
         # Baseline Comparison
         if self.repo_baseline_score is not None:
-            lines.append(f"\nComparison with Repository Baseline:")
+            lines.append("\nComparison with Repository Baseline:")
             lines.append(f"  Repository Average: {self.repo_baseline_score:.1f}/100")
             lines.append(f"  This PR: {self.overall_ai_score:.1f}/100")
 
@@ -254,14 +252,14 @@ class PRAnalysisResult:
                 lines.append(
                     f"  Difference: +{self.baseline_difference:.1f} points ({self.baseline_percentage:+.1f}% higher)"
                 )
-                lines.append(f"  ⚠️  This PR has HIGHER AI usage than repository average")
+                lines.append("  ⚠️  This PR has HIGHER AI usage than repository average")
             elif self.baseline_difference < 0:
                 lines.append(
                     f"  Difference: {self.baseline_difference:.1f} points ({self.baseline_percentage:.1f}% lower)"
                 )
-                lines.append(f"  ✓ This PR has LOWER AI usage than repository average")
+                lines.append("  ✓ This PR has LOWER AI usage than repository average")
             else:
-                lines.append(f"  Difference: No significant difference")
+                lines.append("  Difference: No significant difference")
 
         lines.append(f"\n{'=' * 70}\n")
 
@@ -306,8 +304,8 @@ class PRAnalyzer:
         created_at: datetime,
         merged_at: Optional[datetime],
         state: str,
-        files_data: List[Dict[str, Any]],
-        commits_data: List[Dict[str, Any]],
+        files_data: list[dict[str, Any]],
+        commits_data: list[dict[str, Any]],
         baseline_score: Optional[float] = None,
     ) -> PRAnalysisResult:
         """

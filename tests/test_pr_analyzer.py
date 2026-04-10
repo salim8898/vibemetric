@@ -4,11 +4,10 @@ Tests for PR Analyzer
 Tests the pull request analysis functionality.
 """
 
-import pytest
 from datetime import datetime
-from pathlib import Path
 
-from vibemetric.integrations import PRAnalyzer, PRAnalysisResult
+import pytest
+from vibemetric.integrations import PRAnalysisResult, PRAnalyzer
 from vibemetric.models import AIAssistanceLevel
 
 
@@ -86,14 +85,14 @@ Depends on #115
 def authenticate_user(username: str, password: str) -> Optional[User]:
     """
     Authenticate user with username and password.
-    
+
     Args:
         username: The username to authenticate
         password: The password to verify
-        
+
     Returns:
         User object if authentication successful, None otherwise
-        
+
     Raises:
         AuthenticationError: If authentication fails
     """
@@ -185,10 +184,10 @@ def test_analyze_pr_multiple_high_ai_files(pr_analyzer):
 def process_data(data: List[Dict[str, Any]]) -> pd.DataFrame:
     """
     Process input data and return DataFrame.
-    
+
     Args:
         data: List of dictionaries containing raw data
-        
+
     Returns:
         Processed DataFrame with cleaned data
     """
@@ -239,16 +238,16 @@ def process_data(data: List[Dict[str, Any]]) -> pd.DataFrame:
 def test_should_analyze_file_exclusions(pr_analyzer):
     """Test file exclusion logic"""
     # Should analyze
-    assert pr_analyzer._should_analyze_file("src/main.py") == True
-    assert pr_analyzer._should_analyze_file("lib/utils.js") == True
+    assert pr_analyzer._should_analyze_file("src/main.py") is True
+    assert pr_analyzer._should_analyze_file("lib/utils.js") is True
 
     # Should NOT analyze
-    assert pr_analyzer._should_analyze_file("bundle.min.js") == False
-    assert pr_analyzer._should_analyze_file("styles.min.css") == False
-    assert pr_analyzer._should_analyze_file("package-lock.json") == False
-    assert pr_analyzer._should_analyze_file("yarn.lock") == False
-    assert pr_analyzer._should_analyze_file("image.png") == False
-    assert pr_analyzer._should_analyze_file("proto_pb2.py") == False
+    assert pr_analyzer._should_analyze_file("bundle.min.js") is False
+    assert pr_analyzer._should_analyze_file("styles.min.css") is False
+    assert pr_analyzer._should_analyze_file("package-lock.json") is False
+    assert pr_analyzer._should_analyze_file("yarn.lock") is False
+    assert pr_analyzer._should_analyze_file("image.png") is False
+    assert pr_analyzer._should_analyze_file("proto_pb2.py") is False
 
 
 def test_detect_language(pr_analyzer):

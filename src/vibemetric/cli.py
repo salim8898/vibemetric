@@ -4,28 +4,26 @@ Vibemetric CLI - AI Code Detection Tool
 Command-line interface for scanning repositories and detecting AI-generated code.
 """
 
-import sys
 import argparse
-from pathlib import Path
-from typing import Optional, List
 import json
+import sys
+from pathlib import Path
 
 from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.table import Table
 
 from .detectors.artifact_detector import ArtifactDetector
-from .detectors.velocity_analyzer import VelocityAnalyzer
-from .detectors.pattern_detector import PatternDetector
 from .detectors.ml_detector import MLDetector
-from .scorer import Scorer
-from .models import DetectionSignal, DetectionLayerType
+from .detectors.pattern_detector import PatternDetector
+from .detectors.velocity_analyzer import VelocityAnalyzer
 from .formatters import SARIFFormatter
+from .integrations import PRAnalyzer
+from .integrations.github_client import GITHUB_AVAILABLE, GitHubClient
+from .models import DetectionLayerType, DetectionSignal
 from .profiles import DeveloperProfiler
 from .reports import TeamReporter
-from .integrations import PRAnalyzer
-from .integrations.github_client import GitHubClient, GITHUB_AVAILABLE
+from .scorer import Scorer
 
 console = Console()
 
@@ -189,7 +187,7 @@ def scan_repository(repo_path: str, sample_size: int = 10, verbose: bool = False
     return results
 
 
-def _find_python_files(repo_path: Path) -> List[Path]:
+def _find_python_files(repo_path: Path) -> list[Path]:
     """Find Python files excluding tool-generated ones."""
     EXCLUDE_DIRS = {
         "__pycache__",
@@ -358,12 +356,12 @@ def display_results(results: dict, format: str = "terminal"):
     console.print(f"[bold]Confidence:[/bold] {vibe['confidence']:.2f}")
 
     # Interpretation
-    console.print(f"\n[bold]Interpretation:[/bold]")
+    console.print("\n[bold]Interpretation:[/bold]")
     console.print(f"  {vibe['interpretation']}")
 
     # Recommendations
     if vibe["recommendations"]:
-        console.print(f"\n[bold]Recommendations:[/bold]")
+        console.print("\n[bold]Recommendations:[/bold]")
         for rec in vibe["recommendations"]:
             console.print(f"  • {rec}")
 
@@ -588,16 +586,16 @@ Examples:
   vibemetric scan /path/to/repo                  # Scan specific repository
   vibemetric scan . --format json                # Output as JSON
   vibemetric scan . --sample-size 20             # Analyze 20 files
-  
+
   vibemetric developer-profile . --email john@example.com
   vibemetric developer-profile . --author "John Doe"
   vibemetric developer-profile . --all           # All developers
   vibemetric developer-profile . --all --format json
-  
+
   vibemetric team-report .                       # Team-wide analytics
   vibemetric team-report . --min-commits 5       # Filter low-activity devs
   vibemetric team-report . --format json         # JSON output
-  
+
   vibemetric scan-pr . 123                       # Analyze PR #123
   vibemetric scan-pr . --url https://github.com/user/repo/pull/123
   vibemetric scan-pr . 123 --baseline            # Compare with repo baseline
