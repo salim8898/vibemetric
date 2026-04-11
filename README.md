@@ -2,8 +2,10 @@
 
 **AI Code Detection Platform** - Measure AI's impact on developer productivity and track AI tool adoption across your engineering team.
 
+[![PyPI version](https://img.shields.io/pypi/v/vibemetric.svg)](https://pypi.org/project/vibemetric/)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Downloads](https://img.shields.io/pypi/dm/vibemetric.svg)](https://pypi.org/project/vibemetric/)
 
 ## Overview
 
@@ -55,6 +57,16 @@ vibemetric scan . --sample-size 50
 
 - Python 3.9 or higher
 - Git (for repository analysis)
+
+### Install from PyPI (Recommended)
+
+```bash
+# Install with ML support (recommended)
+pip install vibemetric[ml]
+
+# Or install base package only
+pip install vibemetric
+```
 
 ### Install from Source
 
