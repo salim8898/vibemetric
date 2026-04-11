@@ -1,0 +1,33 @@
+# Include documentation
+include README.md
+include LICENSE
+include CONTRIBUTING.md
+include USAGE_GUIDE.md
+include SCORING_GUIDE.md
+include KNOWN_ISSUES.md
+
+# Include trained ML models
+recursive-include models *.pkl
+
+# Exclude development files
+exclude .gitignore
+exclude .coverage
+exclude .coveragerc
+recursive-exclude tests *
+recursive-exclude .github *
+recursive-exclude .kiro *
+recursive-exclude data *
+recursive-exclude archive *
+exclude test_*.py
+exclude debug_*.py
+exclude demo_*.py
+exclude *.sh
+
+# Exclude internal planning docs
+exclude PROGRESS_LOG.md
+exclude PHASE_*.md
+exclude PROJECT_PIVOT_PLAN.md
+exclude MARKET_RESEARCH.md
+exclude DEFENSIBILITY_ANALYSIS.md
+exclude VIBEMETRIC_FEATURES_ROADMAP.md
+exclude MCP_INTEGRATION_PLAN.md
